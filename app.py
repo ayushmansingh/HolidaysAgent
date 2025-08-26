@@ -38,7 +38,7 @@ class BuildRequest(BaseModel):
 async def build_itinerary(req: BuildRequest):
     async with async_playwright() as p:
         browser = await p.chromium.launch(
-            headless=True,
+            headless=False,
             args=[
                 "--no-sandbox",
                 "--disable-setuid-sandbox",
