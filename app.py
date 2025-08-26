@@ -37,8 +37,18 @@ class BuildRequest(BaseModel):
 @app.post("/build-itinerary")
 async def build_itinerary(req: BuildRequest):
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)  # headless for server
-        context = await browser.new_context()
+        browser = await p.chromium.launch(
+            headless=True,
+            args=[
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+                "--single-process",
+                "--disable-http2"
+            ]
+        )
+        context = await browser.new_context(ignore_https_errors=True)
         page = await context.new_page()
 
         # 1. Open DIY planner
