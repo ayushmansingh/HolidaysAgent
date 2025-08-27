@@ -39,7 +39,7 @@ async def build_itinerary(req: BuildRequest):
         raise HTTPException(status_code=400, detail="At least one destination required")
 
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=False, args=["--no-sandbox"])
+        browser = await p.chromium.launch(headless=True, args=["--no-sandbox"])
         context = await browser.new_context()
         page = await context.new_page()
 
